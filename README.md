@@ -26,3 +26,5 @@ repositories {
 
 testCompile 'com.github.blindpirate:junit5-capture-system-output-extension:0.1.1'
 ```
+
+See https://github.com/blindpirate/junit5-capture-system-output-extension/blob/master/src/test/java/com/github/blindpirate/extensions/CaptureSystemOutputExtensionTest.java for examples.

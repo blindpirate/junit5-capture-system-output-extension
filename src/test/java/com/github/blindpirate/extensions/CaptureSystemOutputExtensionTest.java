@@ -1,11 +1,9 @@
 package com.github.blindpirate.extensions;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.hamcrest.Matchers.containsString;
 
-@ExtendWith(CaptureSystemOutputExtension.class)
 public class CaptureSystemOutputExtensionTest {
     @Test
     @CaptureSystemOutput

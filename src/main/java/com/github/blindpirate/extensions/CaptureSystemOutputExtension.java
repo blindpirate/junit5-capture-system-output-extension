@@ -41,7 +41,7 @@ import com.github.blindpirate.extensions.CaptureSystemOutput.OutputCapture;
  * @author Phillip Webb
  * @author Andy Wilkinson
  */
-public class CaptureSystemOutputExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
+class CaptureSystemOutputExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
