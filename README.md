@@ -1,0 +1,1 @@
+# junit5-capture-system-output-extension
