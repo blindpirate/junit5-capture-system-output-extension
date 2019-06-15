@@ -1,0 +1,103 @@
+apply plugin: 'java-library'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+repositories {
+    mavenCentral()
+}
+
+//groupId = 'com.github.blindpirate'
+//artifactId = 'junit5-capture-system-output-extension'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile "org.junit.jupiter:junit-jupiter-api:5.4.2"
+    compile 'org.hamcrest:hamcrest-core:2.1'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:5.4.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
+
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.blindpirate'
+            artifactId = 'junit5-capture-system-output-extension'
+            version = '0.1.1'
+
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                name = 'junit5-capture-system-output-extension'
+                description = 'A JUnit Jupiter extension to capture output from System.out/System.err'
+                url = 'http://github.com/blindpirate/junit5-capture-system-output-extension'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'sbrannen'
+                        name = 'Sam Brannen'
+                        email = 'sbrannen@pivotal.io'
+                    }
+                    developer {
+                        id = 'blindpirate'
+                        name = 'Bo Zhang'
+                        email = 'zhangbodut@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:http://github.com/blindpirate/junit5-capture-system-output-extension.git'
+                    developerConnection = 'scm:git:git@github.com:blindpirate/junit5-capture-system-output-extension.git'
+                    url = 'http://github.com/blindpirate/junit5-capture-system-output-extension'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            url = version.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+
+            authentication {
+                basic(BasicAuthentication) {
+                    credentials {
+                        username = NEXUS_USERNAME
+                        password = NEXUS_PASSWORD
+                    }
+                }
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.maven
+}
